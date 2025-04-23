@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 
 // 模拟数据库
 const users = [
-  { id: 1, username: 'admin', password: 'admin123', role: '管理员', registerDate: '2025-01-15', status: '活跃' },
-  { id: 2, username: 'zhangfamer', password: 'farmer123', role: '农户', registerDate: '2025-02-22', status: '活跃' },
-  { id: 3, username: 'lixiaoming', password: 'customer123', role: '客户', registerDate: '2025-03-18', status: '待验证' }
+  { id: 1, username: 'admin', password: '123456', role: '管理员', registerDate: '2025-01-15', status: '活跃' },
+  { id: 2, username: 'zhangfamer', password: '123456', role: '农户', registerDate: '2025-02-22', status: '活跃' },
+  { id: 3, username: 'lixiaoming', password: '123456', role: '客户', registerDate: '2025-03-18', status: '待验证' }
 ];
 
 const notifications = [
