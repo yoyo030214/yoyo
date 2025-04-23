@@ -1,0 +1,22 @@
+# 依赖目录
+node_modules/
+
+# 环境配置
+.env
+
+# 日志文件
+logs/
+*.log
+npm-debug.log*
+
+# 运行时数据
+.DS_Store
+.vscode/
+.idea/
+
+# 临时文件
+tmp/
+temp/
+
+# 上传文件（可能较大或包含敏感信息）
+uploads/ 
