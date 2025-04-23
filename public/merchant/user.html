@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 助农商城</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .app-container {
+            max-width: 768px;
+            margin: 0 auto;
+            background-color: #fff;
+            min-height: 100vh;
+        }
+
+        .user-header {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            padding: 20px;
+            color: white;
+            position: relative;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .user-id {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .vip-badge {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2px 8px;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            background: none;
+            border: none;
+            font-size: 20px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .menu-list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+
+        .menu-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-arrow {
+            color: #ccc;
+        }
+
+        .section-title {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #666;
+            background-color: #f9f9f9;
+        }
+
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 768px;
+            height: 50px;
+            display: flex;
+            background-color: #fff;
+            border-top: 1px solid #eee;
+            z-index: 100;
+        }
+
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .tab-item.active {
+            color: #4CAF50;
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .main-content {
+            padding-bottom: 60px;
+        }
+
+        .order-tabs {
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            margin-bottom: 10px;
+        }
+
+        .order-tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 13px;
+            position: relative;
+        }
+
+        .order-tab.active {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .order-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background-color: #4CAF50;
+            border-radius: 3px;
+        }
+
+        .badge {
+            position: absolute;
+            top: 5px;
+            right: 25%;
+            font-size: 10px;
+            background-color: #ff6b01;
+        }
+
+        .farm-card {
+            margin: 15px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .card-bg {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        .card-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-header .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-header .badge {
+            position: relative;
+            top: 0;
+            right: 0;
+            padding: 3px 6px;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(76, 175, 80, 0.8);
+        }
+
+        .card-header .badge .count {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .card-body .highlight {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b01;
+            display: block;
+        }
+
+        .card-body .desc {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .card-footer {
+            text-align: right;
+        }
+
+        .card-footer .tip {
+            font-size: 12px;
+            color: #4CAF50;
+        }
+
+        .login-box {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .login-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .progress-section {
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #fff;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+            <div id="login-required" class="login-box d-none">
+                <p>登录后查看个人中心</p>
+                <button class="login-btn" onclick="location.href='login.html'">立即登录/注册</button>
+            </div>
+
+            <div id="user-content">
+                <!-- 用户信息头部 -->
+                <div class="user-header">
+                    <div class="user-info">
+                        <img src="/static/images/avatars/default.jpg" alt="头像" class="avatar" id="user-avatar">
+                        <div>
+                            <div class="user-name" id="user-name">加载中...</div>
+                            <div class="user-id" id="user-id">助农ID: -</div>
+                            <div class="vip-badge" id="vip-badge">-</div>
+                        </div>
+                    </div>
+                    <button class="settings-btn" onclick="location.href='settings.html'">
+                        <i class="bi bi-gear"></i>
+                    </button>
+
+                    <div class="progress-section">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="level-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="next-level-text">-</span>
+                            <span id="level-desc">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 订单状态 -->
+                <div class="order-tabs">
+                    <div class="order-tab" onclick="location.href='orders.html?status=pending'">
+                        <i class="bi bi-credit-card"></i>
+                        <div>待付款</div>
+                        <span class="badge rounded-pill" id="pending-badge">0</span>
+                    </div>
+                    <div class="order-tab" onclick="location.href='orders.html?status=processing'">
+                        <i class="bi bi-box-seam"></i>
+                        <div>待发货</div>
+                        <span class="badge rounded-pill" id="processing-badge">0</span>
+                    </div>
+                    <div class="order-tab" onclick="location.href='orders.html?status=shipped'">
+                        <i class="bi bi-truck"></i>
+                        <div>待收货</div>
+                        <span class="badge rounded-pill" id="shipped-badge">0</span>
+                    </div>
+                    <div class="order-tab" onclick="location.href='orders.html?status=completed'">
+                        <i class="bi bi-chat-dots"></i>
+                        <div>待评价</div>
+                        <span class="badge rounded-pill" id="completed-badge">0</span>
+                    </div>
+                </div>
+
+                <!-- 统计数据 -->
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-value" id="points-value">-</div>
+                        <div class="stat-label">我的积分</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="coupons-value">-</div>
+                        <div class="stat-label">优惠券</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="favorites-value">-</div>
+                        <div class="stat-label">收藏</div>
+                    </div>
+                </div>
+
+                <!-- 农业详情卡片 -->
+                <div class="farm-card">
+                    <img src="/static/images/banners/farm-bg.jpg" class="card-bg" alt="助农成果">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="title">助农成果</div>
+                            <div class="badge">
+                                <span>累计帮扶</span>
+                                <span class="count" id="help-farmers">-</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <span class="highlight" id="saved-crops">-</span>
+                            <span class="desc">农产品免于滞销</span>
+                        </div>
+                        <div class="card-footer">
+                            <span class="tip" id="covered-villages">已覆盖 - 个自然村</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 常用功能 -->
+                <div class="section-title">我的服务</div>
+                <ul class="menu-list">
+                    <li class="menu-item" onclick="location.href='addresses.html'">
+                        <div class="menu-title">
+                            <i class="bi bi-geo-alt menu-icon"></i>
+                            收货地址
+                        </div>
+                        <i class="bi bi-chevron-right menu-arrow"></i>
+                    </li>
+                    <li class="menu-item" onclick="location.href='favorites.html'">
+                        <div class="menu-title">
+                            <i class="bi bi-heart menu-icon"></i>
+                            我的收藏
+                        </div>
+                        <i class="bi bi-chevron-right menu-arrow"></i>
+                    </li>
+                    <li class="menu-item" onclick="location.href='coupons.html'">
+                        <div class="menu-title">
+                            <i class="bi bi-ticket-perforated menu-icon"></i>
+                            优惠券
+                        </div>
+                        <i class="bi bi-chevron-right menu-arrow"></i>
+                    </li>
+                    <li class="menu-item" onclick="location.href='points.html'">
+                        <div class="menu-title">
+                            <i class="bi bi-coin menu-icon"></i>
+                            积分中心
+                        </div>
+                        <i class="bi bi-chevron-right menu-arrow"></i>
+                    </li>
+                </ul>
+
+                <div class="section-title">更多服务</div>
+                <ul class="menu-list">
+                    <li class="menu-item" onclick="location.href='customer-service.html'">
+                        <div class="menu-title">
+                            <i class="bi bi-headset menu-icon"></i>
+                            客服中心
+                        </div>
+                        <i class="bi bi-chevron-right menu-arrow"></i>
+                    </li>
+                    <li class="menu-item" onclick="location.href='farmer-direct.html'">
+                        <div class="menu-title">
+                            <i class="bi bi-shop menu-icon"></i>
+                            农户直供
+                        </div>
+                        <i class="bi bi-chevron-right menu-arrow"></i>
+                    </li>
+                    <li class="menu-item" onclick="location.href='feedback.html'">
+                        <div class="menu-title">
+                            <i class="bi bi-chat-text menu-icon"></i>
+                            意见反馈
+                        </div>
+                        <i class="bi bi-chevron-right menu-arrow"></i>
+                    </li>
+                    <li class="menu-item" onclick="location.href='about.html'">
+                        <div class="menu-title">
+                            <i class="bi bi-info-circle menu-icon"></i>
+                            关于我们
+                        </div>
+                        <i class="bi bi-chevron-right menu-arrow"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 底部标签栏 -->
+        <div class="tab-bar">
+            <a href="index.html" class="tab-item">
+                <i class="bi bi-house-door tab-icon"></i>
+                <span>首页</span>
+            </a>
+            <a href="category.html" class="tab-item">
+                <i class="bi bi-grid tab-icon"></i>
+                <span>分类</span>
+            </a>
+            <a href="cart.html" class="tab-item">
+                <i class="bi bi-cart tab-icon"></i>
+                <span>购物车</span>
+            </a>
+            <a href="user.html" class="tab-item active">
+                <i class="bi bi-person tab-icon"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/merchant/js/api-client.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查登录状态
+            if (!memberApi.isLoggedIn()) {
+                document.getElementById('login-required').classList.remove('d-none');
+                document.getElementById('user-content').classList.add('d-none');
+            } else {
+                loadUserInfo();
+            }
+        });
+
+        async function loadUserInfo() {
+            try {
+                // 获取用户信息
+                const userInfo = await memberApi.getProfile();
+                
+                // 更新用户基本信息
+                document.getElementById('user-name').textContent = userInfo.member.nickname;
+                document.getElementById('user-id').textContent = `助农ID: ${userInfo.member.userId}`;
+                document.getElementById('user-avatar').src = userInfo.member.avatar || '/static/images/avatars/default.jpg';
+                document.getElementById('vip-badge').textContent = `Lv.${userInfo.member.level} ${userInfo.levelInfo.name}`;
+                
+                // 更新等级进度
+                document.getElementById('level-progress').style.width = `${userInfo.levelInfo.nextLevelPercent}%`;
+                
+                if (userInfo.levelInfo.nextLevel) {
+                    document.getElementById('next-level-text').textContent = 
+                        `再获得${userInfo.levelInfo.pointsToNextLevel}积分升级`;
+                } else {
+                    document.getElementById('next-level-text').textContent = '已达到最高等级';
+                }
+                
+                document.getElementById('level-desc').textContent = 
+                    `已获得${userInfo.levelInfo.description}`;
+                
+                // 更新统计数据
+                document.getElementById('points-value').textContent = userInfo.member.points;
+                
+                // 更新助农成果
+                document.getElementById('help-farmers').textContent = userInfo.member.helpFarmers;
+                document.getElementById('saved-crops').textContent = `${userInfo.member.savedCrops}kg`;
+                document.getElementById('covered-villages').textContent = 
+                    `已覆盖${userInfo.member.coveredVillages}个自然村`;
+                
+                // 获取优惠券数量
+                const coupons = await memberApi.getCoupons();
+                document.getElementById('coupons-value').textContent = coupons.length;
+                
+                // 获取收藏数量
+                const favorites = await memberApi.getFavorites();
+                document.getElementById('favorites-value').textContent = favorites.length;
+                
+                // 获取订单数量
+                const orders = await memberApi.getOrders();
+                
+                // 计算各状态订单数量
+                const pendingOrders = orders.filter(order => order.status === '待付款').length;
+                const processingOrders = orders.filter(order => order.status === '待发货').length;
+                const shippedOrders = orders.filter(order => order.status === '已发货').length;
+                const completedOrders = orders.filter(order => order.status === '待评价').length;
+                
+                // 更新订单数量显示
+                document.getElementById('pending-badge').textContent = pendingOrders;
+                document.getElementById('processing-badge').textContent = processingOrders;
+                document.getElementById('shipped-badge').textContent = shippedOrders;
+                document.getElementById('completed-badge').textContent = completedOrders;
+                
+                // 根据数量控制徽章显示
+                document.getElementById('pending-badge').style.display = pendingOrders > 0 ? 'block' : 'none';
+                document.getElementById('processing-badge').style.display = processingOrders > 0 ? 'block' : 'none';
+                document.getElementById('shipped-badge').style.display = shippedOrders > 0 ? 'block' : 'none';
+                document.getElementById('completed-badge').style.display = completedOrders > 0 ? 'block' : 'none';
+                
+            } catch (error) {
+                console.error('获取用户信息失败:', error);
+                // 登录失效时，显示登录界面
+                document.getElementById('login-required').classList.remove('d-none');
+                document.getElementById('user-content').classList.add('d-none');
+            }
+        }
+    </script>
+</body>
+</html> 
